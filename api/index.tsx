@@ -3,6 +3,7 @@ import { devtools } from 'frog/dev';
 import { serveStatic } from 'frog/serve-static';
 // import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel';
+import { checkIsPoapHolder } from '../utils/poap.js';
 
 // Uncomment to use Edge Runtime.
 // export const config = {
@@ -78,12 +79,12 @@ app.frame('/', (c) => {
       </div>
     ),
     intents: [
-      <Button.Link href="https://frutero.club">El Club</Button.Link>,
-      <Button.Link href="https://zora.co/">Colección</Button.Link>,
+      <Button action="/tokens-aceptados">Iniciar</Button>,
+      <Button.Link href="https://zora.co/">Arte</Button.Link>,
       <Button.Link href="https://twitter.com/Cripto_street">
-        La Artista
+        Artista
       </Button.Link>,
-      <Button action="/tokens-aceptados">➡️</Button>,
+      <Button.Link href="https://frutero.club">Frutero</Button.Link>,
     ],
   });
 });
@@ -205,15 +206,114 @@ app.frame('/tokens-aceptados', (c) => {
             </div>
           </div>
         </div>
+        <div
+          style={{
+            color: 'white',
+            fontSize: 48,
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.4,
+            marginTop: 48,
+            padding: '0',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          Selecciona el número que quieres validar
+        </div>
       </div>
     ),
     intents: [
+      <TextInput placeholder="Introduce tu dirección..." />,
       <Button action="/pulpa">1</Button>,
       <Button action="/ponche-de-frutas">2</Button>,
       <Button action="/eth-cinco-de-mayo">3</Button>,
       <Button action="/eth-latam">4</Button>,
     ],
   });
+});
+
+app.frame('/pulpa', async (c) => {
+  const { inputText } = c;
+  const isPoapHolder = await checkIsPoapHolder(inputText ?? '0x0');
+  if (isPoapHolder) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Cumples con este requisito, ¡genial!
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  } else {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Lo sentimos, no cumples con este requisito. Puedes intentar con otro
+            token...
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  }
 });
 
 // @ts-ignore

@@ -8,6 +8,7 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "@airstack/node": "^0.0.5",
     "frog": "latest",
     "hono": "^4"
   },
