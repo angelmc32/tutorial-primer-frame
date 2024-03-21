@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@airstack/node": "^0.0.5",
+    "dotenv": "^16.4.5",
     "frog": "latest",
     "hono": "^4"
   },
