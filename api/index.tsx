@@ -4,6 +4,7 @@ import { serveStatic } from 'frog/serve-static';
 // import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel';
 import { checkIsPoapHolder } from '../utils/poap.js';
+import { mintNft } from '../utils/mint.js';
 
 // Uncomment to use Edge Runtime.
 // export const config = {
@@ -281,7 +282,9 @@ app.frame('/pulpa', async (c) => {
       ),
       intents: [
         <Button action="/tokens-aceptados">Atrás</Button>,
-        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button action="/mint" value={inputText}>
+          Acuñar
+        </Button>,
         <Button.Reset>Reiniciar</Button.Reset>,
       ],
     });
@@ -366,9 +369,12 @@ app.frame('/ponche-de-frutas', async (c) => {
           </div>
         </div>
       ),
+
       intents: [
         <Button action="/tokens-aceptados">Atrás</Button>,
-        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button action="/mint" value={inputText}>
+          Acuñar
+        </Button>,
         <Button.Reset>Reiniciar</Button.Reset>,
       ],
     });
@@ -455,7 +461,9 @@ app.frame('/eth-cinco-de-mayo', async (c) => {
       ),
       intents: [
         <Button action="/tokens-aceptados">Atrás</Button>,
-        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button action="/mint" value={inputText}>
+          Acuñar
+        </Button>,
         <Button.Reset>Reiniciar</Button.Reset>,
       ],
     });
@@ -542,7 +550,9 @@ app.frame('/eth-latam', async (c) => {
       ),
       intents: [
         <Button action="/tokens-aceptados">Atrás</Button>,
-        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button action="/mint" value={inputText}>
+          Acuñar
+        </Button>,
         <Button.Reset>Reiniciar</Button.Reset>,
       ],
     });
@@ -577,6 +587,95 @@ app.frame('/eth-latam', async (c) => {
           >
             Lo sentimos, no cumples con este requisito. Puedes intentar con otro
             token...
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  }
+});
+
+app.frame('/mint', async (c) => {
+  const { buttonValue } = c;
+  const mintRes = await mintNft(buttonValue as `0x${string}`);
+  if (mintRes.isSuccess) {
+    console.log(mintRes.hash);
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Se ha enviado la transacción para acuñar tx: {mintRes.hash}
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button.Link
+          href={`
+          https://sepolia.etherscan.io/tx/${mintRes.hash}`}
+        >
+          Scanner
+        </Button.Link>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  } else {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Lo sentimos, no pudimos completar la transacción
           </div>
         </div>
       ),
