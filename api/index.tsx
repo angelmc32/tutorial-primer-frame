@@ -224,17 +224,289 @@ app.frame('/tokens-aceptados', (c) => {
     ),
     intents: [
       <TextInput placeholder="Introduce tu dirección..." />,
-      <Button action="/pulpa">1</Button>,
-      <Button action="/ponche-de-frutas">2</Button>,
-      <Button action="/eth-cinco-de-mayo">3</Button>,
-      <Button action="/eth-latam">4</Button>,
+      <Button action="/pulpa" value="165689">
+        1
+      </Button>,
+      <Button action="/ponche-de-frutas" value="165689">
+        2
+      </Button>,
+      <Button action="/eth-cinco-de-mayo" value="167588">
+        3
+      </Button>,
+      <Button action="/eth-latam" value="170780">
+        4
+      </Button>,
     ],
   });
 });
 
 app.frame('/pulpa', async (c) => {
-  const { inputText } = c;
-  const isPoapHolder = await checkIsPoapHolder(inputText ?? '0x0');
+  const { inputText, buttonValue } = c;
+  const isPoapHolder = await checkIsPoapHolder(
+    inputText as string,
+    buttonValue as string
+  );
+  if (isPoapHolder) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Cumples con este requisito, ¡genial!
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  } else {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Lo sentimos, no cumples con este requisito. Puedes intentar con otro
+            token...
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  }
+});
+
+app.frame('/ponche-de-frutas', async (c) => {
+  const { inputText, buttonValue } = c;
+  const isPoapHolder = await checkIsPoapHolder(
+    inputText as string,
+    buttonValue as string
+  );
+  if (isPoapHolder) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Cumples con este requisito, ¡genial!
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  } else {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Lo sentimos, no cumples con este requisito. Puedes intentar con otro
+            token...
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  }
+});
+
+app.frame('/eth-cinco-de-mayo', async (c) => {
+  const { inputText, buttonValue } = c;
+  const isPoapHolder = await checkIsPoapHolder(
+    inputText as string,
+    buttonValue as string
+  );
+  if (isPoapHolder) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Cumples con este requisito, ¡genial!
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button action="/pulpa-mint">Acuñar</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  } else {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Lo sentimos, no cumples con este requisito. Puedes intentar con otro
+            token...
+          </div>
+        </div>
+      ),
+      intents: [
+        <Button action="/tokens-aceptados">Atrás</Button>,
+        <Button.Reset>Reiniciar</Button.Reset>,
+      ],
+    });
+  }
+});
+
+app.frame('/eth-latam', async (c) => {
+  const { inputText, buttonValue } = c;
+  const isPoapHolder = await checkIsPoapHolder(
+    inputText as string,
+    buttonValue as string
+  );
   if (isPoapHolder) {
     return c.res({
       image: (
