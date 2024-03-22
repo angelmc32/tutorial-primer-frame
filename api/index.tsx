@@ -5,6 +5,7 @@ import { serveStatic } from 'frog/serve-static';
 import { handle } from 'frog/vercel';
 import { checkIsPoapHolder } from '../utils/poap.js';
 import { mintNft } from '../utils/mint.js';
+import { pinata } from 'frog/hubs';
 
 // Uncomment to use Edge Runtime.
 // export const config = {
@@ -14,8 +15,7 @@ import { mintNft } from '../utils/mint.js';
 export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  // Supply a Hub to enable frame verification.
-  // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
+  hub: pinata(),
 });
 
 app.frame('/', (c) => {
@@ -599,7 +599,43 @@ app.frame('/eth-latam', async (c) => {
 });
 
 app.frame('/mint', async (c) => {
-  const { buttonValue } = c;
+  const { buttonValue, verified } = c;
+  if (!verified) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: '#9d0772',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 48,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              margin: 16,
+              padding: '0',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Necesitas tener una cuenta de Farcaster para acuñar
+          </div>
+        </div>
+      ),
+      intents: [<Button.Reset>Reiniciar</Button.Reset>],
+    });
+  }
   const mintRes = await mintNft(buttonValue as `0x${string}`);
   if (mintRes.isSuccess) {
     console.log(mintRes.hash);
